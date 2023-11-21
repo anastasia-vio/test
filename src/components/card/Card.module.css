@@ -1,0 +1,113 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 15px;
+    border: 1px solid #F2F2F2;
+    border-radius: 16px;
+    background-color: #FFF;
+    padding: 16px;
+    color: #636E72;
+    font-size: 16px;
+}
+
+.headerContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.name{
+    font-size: larger;
+    color: #131313;
+    font-weight: 600;
+}
+
+.status{
+    display: flex;
+    min-width: 65px;
+    gap: 2px;
+    justify-content: center;
+    align-items: center;
+    background: rgba(99, 110, 114, 0.10);
+    border-radius: 16px;
+    padding: 2px 8px;
+}
+
+.description{
+    margin-block: 0 10px;
+}
+
+.deadlineContainer{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4px;
+}
+
+.deadlineText{
+    color: #FFA726;
+    margin-right: -4px;
+}
+
+.footerContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.addItem{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    color: #BDBDBD;
+}
+
+.members{
+    display:flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.avatar:not(:first-child):not(:last-child){
+    margin-left: -7%;
+}
+
+.avatar{
+    display: flex;
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 3px solid #FFF;
+    background-color: #F2F2F2;
+}
+
+.avatar img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgb(151, 214, 214);
+}
+
+.avatar:last-child{
+    border: 1px solid #BDBDBD;
+    background-color: transparent;
+}
+
+.more{
+    font-weight: 600;
+    font-size: smaller;
+}

@@ -1,0 +1,29 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    color: #636E72;
+    font-size: 16px;
+}
+
+.indicator{
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+}
+
+.input[type=radio]{
+    display: none;
+}
+
+/* CHECKED */
+.input[type=radio]:checked ~ .indicator{
+    background-color: #00B894;
+}
+
+.input[type=radio]:checked ~ .text{
+    font-weight: bolder;
+    color: #00B894;
+}
+

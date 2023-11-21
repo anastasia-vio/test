@@ -1,0 +1,22 @@
+.container{
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    padding: 8px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 16px;
+    border-style: hidden;
+    background-color: #00B894;
+    
+}
+
+.container:hover{
+    background-color: #006451;
+}
+
+.text{
+    color: white;
+    font-size: 18px;
+}
