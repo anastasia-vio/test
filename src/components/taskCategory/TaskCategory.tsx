@@ -1,17 +1,22 @@
+import { FilterValuesType } from "../../App"
 import style from "./TaskCategory.module.css"
 import {FC} from "react"
 
 type TaskPropsType = {
-    type: string
+    filter: FilterValuesType
     checked: boolean
+    filterTasks: (value: FilterValuesType) => void
 }
 
-export const TaskCategory: FC<TaskPropsType> = ({type, checked}) => {
+export const TaskCategory: FC<TaskPropsType> = ({filter, checked, filterTasks}) => {
+
+    const filterTaskHandler = () => filterTasks(filter)
+
     return(
-        <label className={style.container}>
-            <input className={style.input} type="radio" name="task"/>
+        <div className={style.container} onClick={filterTaskHandler}>
+            <input className={style.input} type="radio" name="task" checked={checked} />
             <div className={style.indicator}/>
-            <span className={style.text}>{type}</span>
-        </label>
+            <span className={style.text}>{filter}</span>
+        </div>
     );
 }

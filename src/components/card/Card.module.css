@@ -33,7 +33,7 @@
     align-items: center;
     background: rgba(99, 110, 114, 0.10);
     border-radius: 16px;
-    padding: 2px 8px;
+    padding: 2px 12px;
 }
 
 .description{
@@ -94,7 +94,7 @@
     background-color: #F2F2F2;
 }
 
-.avatar img{
+.avatar .photo{
     object-fit: cover;
     width: 100%;
     height: 100%;
