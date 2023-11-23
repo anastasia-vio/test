@@ -2,16 +2,17 @@ import {useState} from 'react';
 
 import style from './App.module.css';
 
-import { Button } from './components/button/Button';
+import { Button } from './components/button/Button'
 import { TaskCategory } from './components/taskCategory/TaskCategory'
 import { Tasks } from './components/tasks/Tasks';
 import { CardType, CategoryType, FilterValuesType, TaskType, allTasks, taskCategory, taskType } from './state/state';
+import { AddCard } from './components/addCard/AddCard';
 
 export const App = () =>{
 
 let tasks: CardType[] = [];
   
-let [filter, setFilter] = useState<FilterValuesType>("All")
+const [filter, setFilter] = useState<FilterValuesType>("All")
 
 function filterTasks(value: FilterValuesType){
   setFilter(value);
@@ -30,10 +31,18 @@ switch(filter){
   default:
     tasks = allTasks;
 }
+
+ const [isModalVisible, setModalVisiblity] = useState(false)
+
+  function changeModalState(){
+    setModalVisiblity(!isModalVisible)
+  }
+
   return (
     <div className={style.app}>
+      <AddCard isModalVisible={isModalVisible} onClose={changeModalState}/>
       <div className={style.header}>
-        <Button/>
+        <Button onOpen={changeModalState}/>
         <div className={style.taskCategory}>
         {
           taskCategory.map((category: CategoryType, index) => 
