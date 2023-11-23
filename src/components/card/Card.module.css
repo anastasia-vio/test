@@ -10,6 +10,11 @@
     padding: 16px;
     color: #636E72;
     font-size: 16px;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .headerContainer{
@@ -23,6 +28,11 @@
     font-size: larger;
     color: #131313;
     font-weight: 600;
+    -ms-user-select: text;
+    -moz-user-select: text;
+    -khtml-user-select: text;
+    -webkit-user-select: text;
+    user-select: text;
 }
 
 .status{
@@ -31,13 +41,29 @@
     gap: 2px;
     justify-content: center;
     align-items: center;
-    background: rgba(99, 110, 114, 0.10);
     border-radius: 16px;
     padding: 2px 12px;
+}
+.status.todo{
+    color: #636E72;
+    background: #636E721A;
+}
+.status.ongoing{
+    color: #2F80ED;
+    background: #2F80ED1A;
+}
+.status.done{
+    color: #219653;
+    background: #2196531A;
 }
 
 .description{
     margin-block: 0 10px;
+    -ms-user-select: text;
+    -moz-user-select: text;
+    -khtml-user-select: text;
+    -webkit-user-select: text;
+    user-select: text;
 }
 
 .deadlineContainer{

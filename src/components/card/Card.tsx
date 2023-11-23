@@ -1,6 +1,8 @@
 import avatar1 from '../../res/man.png'
 import avatar2 from '../../res/woman.png'
 import priorityHigh from '../../icons/priorityHigh.svg'
+import priorityMid from '../../icons/priorityMid.svg'
+import priorityLow from '../../icons/priorityLow.svg'
 import statusList from '../../icons/status.svg'
 import deadlineIcon from '../../icons/deadline.svg'
 import addMember from '../../icons/addMember.svg'
@@ -9,9 +11,9 @@ import messages from '../../icons/message.svg'
 
 import style from "./Card.module.css"
 import {FC} from "react"
-import { CardImportanceType, CardStatusType, CardTypeType } from '../../App'
+import { CardImportanceType, CardStatusType, CardTypeType } from '../../state/state'
 
-export type CardPropsType = {
+type CardPropsType = {
     name: string
     description: string
     importance: CardImportanceType
@@ -26,10 +28,10 @@ export const Card: FC<CardPropsType> = ({name, description, importance, status, 
     return(
         <div className={style.container}>
             <div className={style.headerContainer}>
-                <img src={priorityHigh}/>
+                <img src={importance === 'high' ? priorityHigh : importance === 'mid' ? priorityMid : priorityLow}/>
                 <span className={style.name}>{name}</span>
-                <div className={style.status}>
-                    {status}
+                <div className={`${style.status} ${status === 'To Do' ? style.todo : status === 'Ongoing' ? style.ongoing : style.done} `}>
+                    <span>{status}</span>
                     <img src={statusList}/>
                 </div>
             </div>

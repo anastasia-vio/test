@@ -9,7 +9,12 @@
     border-radius: 16px;
     border-style: hidden;
     background-color: #00B894;
-    
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+
 }
 
 .container:hover{

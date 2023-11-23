@@ -1,4 +1,4 @@
-import { FilterValuesType } from "../../App"
+import { FilterValuesType } from "../../state/state"
 import style from "./TaskCategory.module.css"
 import {FC} from "react"
 
@@ -14,7 +14,7 @@ export const TaskCategory: FC<TaskPropsType> = ({filter, checked, filterTasks}) 
 
     return(
         <div className={style.container} onClick={filterTaskHandler}>
-            <input className={style.input} type="radio" name="task" checked={checked} />
+            <input className={style.input} type="radio" name="task" checked={checked} readOnly/>
             <div className={style.indicator}/>
             <span className={style.text}>{filter}</span>
         </div>

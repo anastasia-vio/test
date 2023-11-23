@@ -7,6 +7,11 @@
     padding: 8px 16px;
     border-radius: 16px 16px 0px 0px;
     border-top: 4px solid rgba(255, 167, 38, 0.70);
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .textContainer{

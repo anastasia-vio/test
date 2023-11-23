@@ -19,7 +19,7 @@ export const Tab: FC<TabPropsType> = ({type, num, checked}) => {
                     {num}
                 </div>
             </div>
-            <div className={style.add}>
+            <div className={type !== 'Completed' ? style.add : style.indicator}>
                 <img src={addToTab}/>
             </div>
             <div className={style.indicator}/>
