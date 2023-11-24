@@ -14,14 +14,11 @@
     -khtml-user-select: none;
     -webkit-user-select: none;
     user-select: none;
+    color: white;
+    font-size: 18px;
 
 }
 
 .container:hover{
     background-color: #006451;
-}
-
-.text{
-    color: white;
-    font-size: 18px;
 }

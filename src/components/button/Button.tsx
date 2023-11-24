@@ -10,10 +10,8 @@ type ButtPropsType = {
 export const Button: FC<ButtPropsType> = ({onOpen}) =>{
     return (
         <div className={style.container} onClick={onOpen}>
-            <img src={addTask}/>   
-            <span className={style.text}>
-                New
-            </span>
+            <img src={addTask}/>
+            New
         </div>
     );
   }

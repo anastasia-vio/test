@@ -44,15 +44,15 @@
     border-radius: 16px;
     padding: 2px 12px;
 }
-.status.todo{
+.todo{
     color: #636E72;
     background: #636E721A;
 }
-.status.ongoing{
+.ongoing{
     color: #2F80ED;
     background: #2F80ED1A;
 }
-.status.done{
+.done{
     color: #219653;
     background: #2196531A;
 }
