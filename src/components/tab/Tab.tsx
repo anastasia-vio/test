@@ -1,15 +1,22 @@
 import addToTab from '../../icons/addToTab.svg'
+import { CardTypeType } from '../../state/state'
 
 import style from "./Tab.module.css"
 import {FC} from "react"
 
 type TabPropsType = {
-    type: string
+    type: CardTypeType
     num: number
-    checked: boolean
+    checked: boolean,
+    onOpen: (from: CardTypeType) => void
 }
 
-export const Tab: FC<TabPropsType> = ({type, num, checked}) => {
+export const Tab: FC<TabPropsType> = ({type, num, checked, onOpen}) => {
+
+    const open = () => {
+        onOpen(type)
+    }
+
     return(
         <label className={style.container}>
             <input className={style.input} type="radio" name="tab"></input>
@@ -20,7 +27,7 @@ export const Tab: FC<TabPropsType> = ({type, num, checked}) => {
                 </div>
             </div>
             <div className={type !== 'Completed' ? style.add : style.indicator}>
-                <img src={addToTab}/>
+                <img src={addToTab} onClick={open}/>
             </div>
             <div className={style.indicator}/>
         </label>

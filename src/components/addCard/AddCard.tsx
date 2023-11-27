@@ -1,42 +1,61 @@
 import style from "./AddCard.module.css"
 import cardStyle from '../card/Card.module.css'
 import buttStyle from '../button/Button.module.css'
-import {FC} from "react"
+import {ChangeEvent, FC} from "react"
 import {useState} from 'react';
-
-import avatar1 from '../../res/man.png'
-import avatar2 from '../../res/woman.png'
-import priorityHigh from '../../icons/priorityHigh.svg'
-import priorityMid from '../../icons/priorityMid.svg'
 import priorityLow from '../../icons/priorityLow.svg'
-import statusList from '../../icons/status.svg'
 import deadlineIcon from '../../icons/deadline.svg'
 import addMember from '../../icons/addMember.svg'
 import files from '../../icons/file.svg'
-import messages from '../../icons/message.svg'
+import { CardTypeType } from "../../state/state";
 
-type AddPropsType = {
+
+type AddCardPropsType = {
     isModalVisible: boolean
-    onClose: () => void
-    addCard: (title: string) => void
+    from: CardTypeType
+    onClose: (from: CardTypeType) => void
+    addCard: (type: CardTypeType, title: string, description: string, deadline: string) => void
 }
 
-export const AddCard: FC<AddPropsType> = ({isModalVisible, onClose, addCard}) => {
-
+export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard, from}) => {
     const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
+
+    const current = new Date()
+    const [date, setDate] = useState(`${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`)
+
 
     const close = () => {
         setTitle('')
-        onClose()
+        setDescription('')
+        setDate(`${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate() + 1}`)
+        onClose("Upcoming")
     }
 
     const add = () => {
-        addCard(title)
+        const formatted = Intl.DateTimeFormat("en", {
+            year: "numeric",
+            day: "2-digit",
+            month: "long",
+          }).format(Date.parse(date));
+        addCard(from, title, description, formatted)
         close()
     }
 
+    const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.currentTarget.value)
+    }
+
+    const onChangeDescriptionHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setDescription(e.currentTarget.value)
+    }
+
+    const onChangeDeadlineHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setDate(e.currentTarget.value)
+    }
+
     return(
-        <div  className={isModalVisible ? style.modal : style.none} onClick={close}>
+        <div className={isModalVisible ? style.modal : style.none} onClick={close}>
             <div className={style.content} onClick={e => e.stopPropagation()}>
                 <div className={style.header}>
                     <h3 className={style.title}>New task</h3>
@@ -54,10 +73,12 @@ export const AddCard: FC<AddPropsType> = ({isModalVisible, onClose, addCard}) =>
                                 <option className={style.option}>High</option>
                             </select>
                         </div>
-                        <input type="text" value={title} placeholder="Title" className={`${cardStyle.name} ${style.titleInput}`} onChange={(e) => {
-                                
-                                setTitle(e.currentTarget.value)
-                            }} />
+                        <input
+                        type="text" 
+                        value={title} 
+                        placeholder="Title" 
+                        className={`${cardStyle.name} ${style.titleInput}`} 
+                        onChange={onChangeTitleHandler}/>
                         <div className={`${style.statusContainer} ${cardStyle.todo}`}>
                             <select className={style.status}>
                                 <option>To Do</option>
@@ -66,17 +87,14 @@ export const AddCard: FC<AddPropsType> = ({isModalVisible, onClose, addCard}) =>
                             </select>
                         </div>
                     </div>
-                    <textarea placeholder="Description" className={`${cardStyle.description} ${style.description}`}/>
-
+                    <textarea value={description} placeholder="Description" className={`${cardStyle.description} ${style.description}`} onChange={onChangeDescriptionHandler}/>
                     <div className={cardStyle.deadlineContainer}>
                         <img src={deadlineIcon}/>
                         <span className={cardStyle.deadlineText}>Deadline</span>: 
-                        <input type="date" className={style.deadline}/>
+                        <input type="date" value={date} min={date} className={style.deadline} onChange={onChangeDeadlineHandler}/>
                     </div>
-
                     <div className={`${cardStyle.footerContainer} ${style.footerContainer}`}>
                         <div className={cardStyle.members}>
-                          
                             <div className={cardStyle.avatar}>
                                 <img src={addMember}/>
                             </div>

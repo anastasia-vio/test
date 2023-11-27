@@ -3,20 +3,40 @@ import style from "./TaskCategory.module.css"
 import {FC} from "react"
 
 type TaskPropsType = {
+    setFilter: (value: FilterValuesType) => void
     filter: FilterValuesType
-    checked: boolean
-    filterTasks: (value: FilterValuesType) => void
 }
 
-export const TaskCategory: FC<TaskPropsType> = ({filter, checked, filterTasks}) => {
+export const TaskCategory: FC<TaskPropsType> = ({ filter, setFilter}) => {
+    const allTaskHandler = () => setFilter("All")
+    const toDoTaskHandler = () => setFilter("To Do")
+    const onGoingTaskHandler = () => setFilter("Ongoing")
+    const doneTaskHandler = () => setFilter("Done")
 
-    const filterTaskHandler = () => filterTasks(filter)
-
-    return(
-        <div className={style.container} onClick={filterTaskHandler}>
-            <input className={style.input} type="radio" name="task" checked={checked} readOnly/>
-            <div className={style.indicator}/>
-            <span className={style.text}>{filter}</span>
+    return( 
+        <div className={style.taskCategory}>
+            <div className={style.container} onClick={allTaskHandler}>
+                <input className={style.input} type="radio" checked={filter === "All"} />
+                <div className={style.indicator}/>
+                <span className={style.text}>All</span>
+            </div>
+            <div className={style.container} onClick={toDoTaskHandler}>
+                <input className={style.input} type="radio" checked={filter === "To Do"} />
+                <div className={style.indicator}/>
+                <span className={style.text}>To Do</span>
+            </div>
+                <div className={style.container} onClick={onGoingTaskHandler}>
+                <input className={style.input} type="radio" checked={filter === "Ongoing"} />
+                <div className={style.indicator}/>
+                <span className={style.text}>Ongoing</span>
+            </div>
+            <div className={style.container} onClick={doneTaskHandler}>
+                <input className={style.input} type="radio" checked={filter === "Done"} />
+                <div className={style.indicator}/>
+                <span className={style.text}>Done</span>
+            </div>
         </div>
     );
 }
+
+

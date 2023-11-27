@@ -11,31 +11,26 @@ export type CardType = {
     file: number
     message: number
 }
-
 export type FilterValuesType = "All" | "To Do" | "Ongoing" | "Done"
-
 export type CardImportanceType = "high" | "mid" | "low"
 export type CardStatusType = "To Do" | "Ongoing" | "Done"
-export type CardTypeType = "today" | "upcoming" | "completed"
-
+export type CardTypeType = "Today's tasks" | "Upcoming" | "Completed"
 export type TaskType = {
-    type: string
+    type: CardTypeType
     checked: boolean
     filterParameter: CardTypeType
 }
-
 export type CategoryType = {
     filter: FilterValuesType
 }
-
-export const allTasks: CardType[] = [{
+export const allTasks: Array<CardType> = [{
     id: v1(),
     name: "Project X dashboard UI design",
     description: "Dashboard UI design is a visually engaging and intuitively structured interface tailored to streamline project management",
     importance: "high",
     status: "Ongoing",
-    type: "today",
-    deadline: "11th - 15th Aug, 2023",
+    type: "Today's tasks",
+    deadline: "August 15, 2023",
     file: 2,
     message: 3
   },
@@ -46,8 +41,8 @@ export const allTasks: CardType[] = [{
     description: "Dashboard UI design is a visually engaging and intuitively structured interface tailored to streamline project management",
     importance: "mid",
     status: "To Do",
-    type: "today",
-    deadline: "11th - 15th Aug, 2023",
+    type: "Today's tasks",
+    deadline: "August 15, 2023",
     file: 2,
     message: 3
   },
@@ -58,8 +53,8 @@ export const allTasks: CardType[] = [{
     description: "Dashboard UI design is a visually engaging and intuitively structured interface tailored to streamline project management",
     importance: "high",
     status: "Ongoing",
-    type: "today",
-    deadline: "11th - 15th Aug, 2023",
+    type: "Today's tasks",
+    deadline: "August 15, 2023",
     file: 2,
     message: 3
   },
@@ -70,8 +65,8 @@ export const allTasks: CardType[] = [{
     description: "Dashboard UI design is a visually engaging and intuitively structured interface tailored to streamline project management",
     importance: "mid",
     status: "To Do",
-    type: "upcoming",
-    deadline: "11th - 15th Aug, 2023",
+    type: "Upcoming",
+    deadline: "August 15, 2023",
     file: 2,
     message: 3
   },
@@ -82,8 +77,8 @@ export const allTasks: CardType[] = [{
     description: "Dashboard UI design is a visually engaging and intuitively structured interface tailored to streamline project management",
     importance: "mid",
     status: "To Do",
-    type: "upcoming",
-    deadline: "11th - 15th Aug, 2023",
+    type: "Upcoming",
+    deadline: "August 15, 2023",
     file: 2,
     message: 3
   },
@@ -94,8 +89,8 @@ export const allTasks: CardType[] = [{
     description: "Dashboard UI design is a visually engaging and intuitively structured interface tailored to streamline project management",
     importance: "low",
     status: "Done",
-    type: "completed",
-    deadline: "11th - 15th Aug, 2023",
+    type: "Completed",
+    deadline: "August 15, 2023",
     file: 2,
     message: 3
   },
@@ -106,8 +101,8 @@ export const allTasks: CardType[] = [{
     description: "Dashboard UI design is a visually engaging and intuitively structured interface tailored to streamline project management",
     importance: "low",
     status: "Done",
-    type: "completed",
-    deadline: "11th - 15th Aug, 2023",
+    type: "Completed",
+    deadline: "August 15, 2023",
     file: 2,
     message: 3
   },
@@ -118,8 +113,8 @@ export const allTasks: CardType[] = [{
     description: "Dashboard UI design is a visually engaging and intuitively structured interface tailored to streamline project management",
     importance: "low",
     status: "Done",
-    type: "completed",
-    deadline: "11th - 15th Aug, 2023",
+    type: "Completed",
+    deadline: "August 15, 2023",
     file: 2,
     message: 3
   },
@@ -130,8 +125,8 @@ export const allTasks: CardType[] = [{
     description: "Dashboard UI design is a visually engaging and intuitively structured interface tailored to streamline project management",
     importance: "low",
     status: "Done",
-    type: "completed",
-    deadline: "11th - 15th Aug, 2023",
+    type: "Completed",
+    deadline: "August 15, 2023",
     file: 2,
     message: 3
   }
@@ -140,22 +135,18 @@ export const allTasks: CardType[] = [{
 export const taskType: TaskType[] = [{
     type: "Today's tasks",
     checked: true,
-    filterParameter: "today"
+    filterParameter: "Today's tasks"
 },
-
 {
     type: "Upcoming",
     checked: false,
-    filterParameter: "upcoming"
+    filterParameter: "Upcoming"
 },
-
 {
     type: "Completed",
     checked: false,
-    filterParameter: "completed"
+    filterParameter: "Completed"
 }]
-
-
 export const taskCategory: CategoryType[] = [{
     filter: 'All'
 },

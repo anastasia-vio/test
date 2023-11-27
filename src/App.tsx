@@ -1,87 +1,76 @@
 import {useState} from 'react';
 import {v1} from 'uuid'
-
 import style from './App.module.css';
-
 import { Button } from './components/button/Button'
 import { TaskCategory } from './components/taskCategory/TaskCategory'
 import { Tasks } from './components/tasks/Tasks';
-import { CardType, CategoryType, FilterValuesType, TaskType, allTasks, taskCategory, taskType } from './state/state';
+import { CardType, CardTypeType, FilterValuesType, TaskType, allTasks, taskType } from './state/state';
 import { AddCard } from './components/addCard/AddCard';
 
 export const App = () =>{
 
-  let tasks: CardType[] = [];
+  const [tasks, setTasks] = useState<Array<CardType>>(allTasks)
+
+  let filteredTasks: Array<CardType> = []
     
   const [filter, setFilter] = useState<FilterValuesType>("All")
 
-  function filterTasks(value: FilterValuesType){
-    setFilter(value);
-  }
-
-  
-
   switch(filter){
     case "To Do":
-      tasks = allTasks.filter(t => t.status === "To Do");
+      filteredTasks = tasks.filter(t => t.status === "To Do");
       break;
     case "Ongoing":
-      tasks = allTasks.filter(t => t.status === "Ongoing");
+      filteredTasks = tasks.filter(t => t.status === "Ongoing");
       break;
     case "Done":
-      tasks = allTasks.filter(t => t.status === "Done");
+      filteredTasks = tasks.filter(t => t.status === "Done");
       break;
     default:
-      tasks = allTasks;
+      filteredTasks = tasks;
   }
-const [displayedTasks, setDisplayedTasks] = useState<Array<CardType>>(tasks)
+
   const [isModalVisible, setModalVisiblity] = useState(false)
+  const [newCardFrom, setNewCardFrom] = useState<CardTypeType>("Upcoming")
 
-  function changeModalState(){
+  function changeModalState(from: CardTypeType){
     setModalVisiblity(!isModalVisible)
+    setNewCardFrom(from)
   }
 
-  function addCard(title: string){
+  function addCard(type: CardTypeType, title: string, description: string, deadline: string){
     const newCard: CardType = {
       id: v1(),
       name: title,
-      description: "Dashboard UI design is a visually engaging and intuitively structured interface tailored to streamline project management",
+      description: description,
       importance: "high",
       status: "Ongoing",
-      type: "today",
-      deadline: "11th - 15th Aug, 2023",
-      file: 2,
-      message: 3
+      type: type,
+      deadline: deadline,
+      file: 0,
+      message: 0
     }
-    const newTasks = [newCard, ...allTasks]
-    setDisplayedTasks(newTasks);
+    const newTasks = [newCard, ...filteredTasks]
+    setTasks(newTasks);
   }
 
   return (
     <div className={style.app}>
-      <AddCard isModalVisible={isModalVisible} onClose={changeModalState} addCard={addCard}/>
+      <AddCard isModalVisible={isModalVisible} from={newCardFrom} onClose={changeModalState} addCard={addCard}/>
       <div className={style.header}>
         <Button onOpen={changeModalState}/>
-        <div className={style.taskCategory}>
-        {
-          taskCategory.map((category: CategoryType, index) => 
-          <TaskCategory key={index}
-            filter={category.filter} 
-            filterTasks={filterTasks}
-            checked={filter === category.filter}
-          />)
-        }
-        </div>
+        <TaskCategory setFilter={setFilter} filter={filter}/>
       </div>
       <div className={style.tasks}>
-        {
-          taskType.map((tt: TaskType, index) => 
-          <Tasks key={index}
-            type={tt.type}
-            checked={tt.checked}
-            tasks={displayedTasks.filter(t => t.type === tt.filterParameter)}
-          />)
-        }
+        {taskType.map((tt: TaskType, index) => {
+            const tasks = filteredTasks.filter(t => t.type === tt.filterParameter)
+            return (
+              <Tasks key={index}
+              type={tt.type}
+              checked={tt.checked}
+              tasks={tasks}
+              onOpen={changeModalState}
+            />
+            )})}
       </div>
     </div>
   );

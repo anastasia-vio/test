@@ -19,19 +19,6 @@
     width: 100%;
 }
 
-.taskCategory{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    align-self: stretch;
-    gap: 48px;
-    border-radius: 16px;
-    border: 1px solid #F1F2F7;
-    background: #FFF;
-    padding: 0 16px;
-    width: 100%;
-    
-} 
 
 .tasks{
     display: flex;
@@ -39,16 +26,3 @@
     justify-content: stretch;
     gap: 32px;
 }
-
-/* .app{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-
-}
-
-.tab{
-    display: flex;
-    gap: 32px;
-}
-*/
