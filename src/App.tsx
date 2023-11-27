@@ -49,7 +49,7 @@ export const App = () =>{
       file: fileNumber,
       message: 0
     }
-    const newTasks = [newCard, ...filteredTasks]
+    const newTasks = [newCard, ...tasks]
     setTasks(newTasks);
   }
 
