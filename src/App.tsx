@@ -4,7 +4,7 @@ import style from './App.module.css';
 import { Button } from './components/button/Button'
 import { TaskCategory } from './components/taskCategory/TaskCategory'
 import { Tasks } from './components/tasks/Tasks';
-import { CardType, CardTypeType, FilterValuesType, TaskType, allTasks, taskType } from './state/state';
+import { CardImportanceType, CardStatusType, CardType, CardTypeType, FilterValuesType, TaskType, allTasks, taskType } from './state/state';
 import { AddCard } from './components/addCard/AddCard';
 
 export const App = () =>{
@@ -37,13 +37,13 @@ export const App = () =>{
     setNewCardFrom(from)
   }
 
-  function addCard(type: CardTypeType, title: string, description: string, deadline: string){
+  function addCard(type: CardTypeType, title: string, description: string, deadline: string, status: CardStatusType, priority:CardImportanceType){
     const newCard: CardType = {
       id: v1(),
       name: title,
       description: description,
-      importance: "high",
-      status: "Ongoing",
+      importance: priority,
+      status: status,
       type: type,
       deadline: deadline,
       file: 0,

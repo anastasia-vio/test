@@ -4,21 +4,25 @@ import buttStyle from '../button/Button.module.css'
 import {ChangeEvent, FC} from "react"
 import {useState} from 'react';
 import priorityLow from '../../icons/priorityLow.svg'
+import priorityMid from '../../icons/priorityMid.svg'
+import priorityHigh from '../../icons/priorityHigh.svg'
 import deadlineIcon from '../../icons/deadline.svg'
 import addMember from '../../icons/addMember.svg'
 import files from '../../icons/file.svg'
-import { CardTypeType } from "../../state/state";
+import { CardImportanceType, CardStatusType, CardTypeType } from "../../state/state";
 
 
 type AddCardPropsType = {
     isModalVisible: boolean
     from: CardTypeType
     onClose: (from: CardTypeType) => void
-    addCard: (type: CardTypeType, title: string, description: string, deadline: string) => void
+    addCard: (type: CardTypeType, title: string, description: string, deadline: string, status: CardStatusType, priority:CardImportanceType) => void
 }
 
 export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard, from}) => {
+    const [priority, setPriority] = useState<CardImportanceType>('high')
     const [title, setTitle] = useState('')
+    const [status, setStatus] = useState<CardStatusType>('To Do')
     const [description, setDescription] = useState('')
 
     const current = new Date()
@@ -26,7 +30,9 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
 
 
     const close = () => {
+        setPriority('high')
         setTitle('')
+        setStatus('To Do')
         setDescription('')
         setDate(`${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate() + 1}`)
         onClose("Upcoming")
@@ -38,12 +44,44 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
             day: "2-digit",
             month: "long",
           }).format(Date.parse(date));
-        addCard(from, title, description, formatted)
+        addCard(from, title, description, formatted, status, priority)
         close()
     }
 
+    const onChangePriorityHandler = (e: ChangeEvent<HTMLSelectElement>) => {
+        let prior: CardImportanceType = 'high'
+        switch(e.currentTarget.value){
+            case 'high':
+                prior = 'high'
+                break;
+            case 'mid':
+                prior = 'mid'
+                break;
+            case 'low':
+                prior = 'low'
+                break;                
+        }
+        setPriority(prior)
+        }
+
     const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
+    }
+
+    const onChangeStatusHandler = (e: ChangeEvent<HTMLSelectElement>) => {
+        let stat: CardStatusType = 'To Do'
+        switch(e.currentTarget.value){
+            case 'To Do':
+                stat = 'To Do'
+                break;
+            case 'Ongoing':
+                stat = 'Ongoing'
+                break;
+            case 'Done':
+                stat = 'Done'
+                break;                
+        }
+        setStatus(stat)
     }
 
     const onChangeDescriptionHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -66,11 +104,11 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
                 <div className={`${style.body} ${cardStyle.container}`}>
                     <div className={cardStyle.headerContainer}>
                         <div className={style.priorityContainer}>
-                            <img src={priorityLow}/> 
-                            <select className={style.priority}>
-                                <option className={style.option}>Low</option>
-                                <option className={style.option}>Mid</option>
-                                <option className={style.option}>High</option>
+                            <img src={priority === 'high' ? priorityHigh : priority === 'mid' ? priorityMid : priorityLow}/> 
+                            <select value={priority} className={style.priority} onChange={onChangePriorityHandler}>
+                                <option value="high">High</option>
+                                <option value="mid">Mid</option>
+                                <option value="low">Low</option>
                             </select>
                         </div>
                         <input
@@ -79,11 +117,11 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
                         placeholder="Title" 
                         className={`${cardStyle.name} ${style.titleInput}`} 
                         onChange={onChangeTitleHandler}/>
-                        <div className={`${style.statusContainer} ${cardStyle.todo}`}>
-                            <select className={style.status}>
-                                <option>To Do</option>
-                                <option>Ongoing</option>
-                                <option>Done</option>
+                        <div className={`${style.statusContainer} ${status === 'To Do' ? cardStyle.todo : status === 'Ongoing' ? cardStyle.ongoing : cardStyle.done}`}>
+                            <select value={status} className={style.status} onChange={onChangeStatusHandler}>
+                                <option value="To Do">To Do</option>
+                                <option value="Ongoing">Ongoing</option>
+                                <option value="Done">Done</option>
                             </select>
                         </div>
                     </div>
