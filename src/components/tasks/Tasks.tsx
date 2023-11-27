@@ -26,7 +26,7 @@ export const Tasks: FC<TasksPropsType> = ({type, checked, tasks, onOpen}) => {
                 name={card.name} 
                 description={card.description}
                 importance={card.importance}
-                status={card.status}
+                stat={card.status}
                 type={card.type}
                 deadline={card.deadline}
                 file={card.file}

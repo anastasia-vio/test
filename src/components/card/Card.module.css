@@ -35,14 +35,35 @@
     user-select: text;
 }
 
-.status{
+.statusContainer{
     display: flex;
     min-width: 65px;
+    min-height: 1.5em;
     gap: 2px;
     justify-content: center;
     align-items: center;
     border-radius: 16px;
-    padding: 2px 12px;
+    padding: 2px 8px;
+
+}
+.status{
+    width: 100%;
+    background-color: transparent;
+    color: inherit;
+    outline: none;
+    border: none;
+    font-size: 14px;
+    appearance: none;
+    padding: 0 5px 0 0;
+    box-sizing: border-box;
+
+    background-image: url("../../icons/status.svg");
+    background-repeat: no-repeat;
+    background-position: calc(100% + 5px) center;
+}
+
+.option{
+    color: #636E72;
 }
 .todo{
     color: #636E72;

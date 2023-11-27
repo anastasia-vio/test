@@ -16,7 +16,7 @@ type AddCardPropsType = {
     isModalVisible: boolean
     from: CardTypeType
     onClose: (from: CardTypeType) => void
-    addCard: (type: CardTypeType, title: string, description: string, deadline: string, status: CardStatusType, priority:CardImportanceType) => void
+    addCard: (type: CardTypeType, title: string, description: string, deadline: string, status: CardStatusType, priority:CardImportanceType, fileNumber: number) => void
 }
 
 export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard, from}) => {
@@ -27,6 +27,7 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
 
     const current = new Date()
     const [date, setDate] = useState(`${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`)
+    const [fileNumber, setFileNumber] = useState(0)
 
 
     const close = () => {
@@ -35,6 +36,7 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
         setStatus('To Do')
         setDescription('')
         setDate(`${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate() + 1}`)
+        setFileNumber(0)
         onClose("Upcoming")
     }
 
@@ -44,7 +46,7 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
             day: "2-digit",
             month: "long",
           }).format(Date.parse(date));
-        addCard(from, title, description, formatted, status, priority)
+        addCard(from, title, description, formatted, status, priority, fileNumber)
         close()
     }
 
@@ -90,6 +92,12 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
 
     const onChangeDeadlineHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setDate(e.currentTarget.value)
+    }
+
+    const onChangeFileHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.currentTarget.files?.length !== undefined){
+            setFileNumber(e.currentTarget.files?.length)
+        }
     }
 
     return(
@@ -142,7 +150,7 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
                             <div className={cardStyle.addItem}>
                                 <img src={files}/>
                                 <label className={style.addFile}>
-                                    <input type="file" multiple/>
+                                    <input type="file" multiple onChange={onChangeFileHandler}/>
                                     <span>+</span>
                                 </label>
                             </div>

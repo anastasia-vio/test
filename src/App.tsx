@@ -37,7 +37,7 @@ export const App = () =>{
     setNewCardFrom(from)
   }
 
-  function addCard(type: CardTypeType, title: string, description: string, deadline: string, status: CardStatusType, priority:CardImportanceType){
+  function addCard(type: CardTypeType, title: string, description: string, deadline: string, status: CardStatusType, priority:CardImportanceType, fileNumber: number){
     const newCard: CardType = {
       id: v1(),
       name: title,
@@ -46,7 +46,7 @@ export const App = () =>{
       status: status,
       type: type,
       deadline: deadline,
-      file: 0,
+      file: fileNumber,
       message: 0
     }
     const newTasks = [newCard, ...filteredTasks]
