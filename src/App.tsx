@@ -53,6 +53,15 @@ export const App = () =>{
     setTasks(newTasks);
   }
 
+  function moveCompletedTasks(taskId: string, newType: CardTypeType) {
+    let task = tasks.find(t => t.id === taskId)
+    if (task) {
+      task.type = newType
+    console.log(task.type)
+    }
+    setTasks([...tasks])
+  }
+
   return (
     <div className={style.app}>
       <AddCard isModalVisible={isModalVisible} from={newCardFrom} onClose={changeModalState} addCard={addCard}/>
@@ -69,6 +78,7 @@ export const App = () =>{
               checked={tt.checked}
               tasks={tasks}
               onOpen={changeModalState}
+              onComplete={moveCompletedTasks}
             />
             )})}
       </div>

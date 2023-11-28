@@ -3,16 +3,17 @@ import {FC} from "react"
 
 import {Tab} from '../tab/Tab'
 import { Card } from '../card/Card'
-import { CardType, CardTypeType } from '../../state/state'
+import { CardStatusType, CardType, CardTypeType } from '../../state/state'
 
 type TasksPropsType = {
     type: CardTypeType
     checked: boolean
     tasks: Array<CardType>,
     onOpen: (from: CardTypeType) => void
+    onComplete: (tid: string, newType: CardTypeType) => void
 }
 
-export const Tasks: FC<TasksPropsType> = ({type, checked, tasks, onOpen}) => {
+export const Tasks: FC<TasksPropsType> = ({type, checked, tasks, onOpen, onComplete}) => {
 
     const open = () => {
         onOpen(type)
@@ -21,17 +22,24 @@ export const Tasks: FC<TasksPropsType> = ({type, checked, tasks, onOpen}) => {
     return(
         <div className={style.container}>
             <Tab type={type} num={tasks.length} checked={checked} onOpen={open}/>
-            {tasks.map((card: CardType) => 
-            <Card key={card.id}
-                name={card.name} 
-                description={card.description}
-                importance={card.importance}
-                stat={card.status}
-                type={card.type}
-                deadline={card.deadline}
-                file={card.file}
-                message={card.message}
-            />)}
+            {tasks.map((card: CardType) => {
+                const onCompleteHandler = (newType: CardTypeType) => onComplete(card.id, newType)
+                const onChangeSelectHandler = (newStatus: CardStatusType) => {
+                    card.status = newStatus
+                }
+
+                return <Card key={card.id}
+                    name={card.name} 
+                    description={card.description}
+                    importance={card.importance}
+                    stat={card.status}
+                    type={card.type}
+                    deadline={card.deadline}
+                    file={card.file}
+                    message={card.message}
+                    onComplete={onCompleteHandler}
+                    onSelect={onChangeSelectHandler}
+            />})}
         </div>
     );
 }

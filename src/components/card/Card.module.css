@@ -80,6 +80,7 @@
 
 .description{
     margin-block: 0 10px;
+    word-break: break-word;
     -ms-user-select: text;
     -moz-user-select: text;
     -khtml-user-select: text;

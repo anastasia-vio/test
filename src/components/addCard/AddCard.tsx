@@ -29,6 +29,8 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
     const [date, setDate] = useState(`${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`)
     const [fileNumber, setFileNumber] = useState(0)
 
+    const [error, setError] = useState('')
+
 
     const close = () => {
         setPriority('high')
@@ -38,6 +40,7 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
         setDate(`${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate() + 1}`)
         setFileNumber(0)
         onClose("Upcoming")
+        setError('')
     }
 
     const add = () => {
@@ -46,7 +49,14 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
             day: "2-digit",
             month: "long",
           }).format(Date.parse(date));
-        addCard(from, title, description, formatted, status, priority, fileNumber)
+        if (status === 'Done'){
+            from = 'Completed'
+        }
+        if(title.trim() === '') {
+            setError('Create task without title is impossible')
+            return
+        }
+        addCard(from, title.trim(), description.trim(), formatted, status, priority, fileNumber)
         close()
     }
 
@@ -68,6 +78,7 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
 
     const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
+        setError('')
     }
 
     const onChangeStatusHandler = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -86,13 +97,9 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
         setStatus(stat)
     }
 
-    const onChangeDescriptionHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setDescription(e.currentTarget.value)
-    }
+    const onChangeDescriptionHandler = (e: ChangeEvent<HTMLTextAreaElement>) => setDescription(e.currentTarget.value)
 
-    const onChangeDeadlineHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setDate(e.currentTarget.value)
-    }
+    const onChangeDeadlineHandler = (e: ChangeEvent<HTMLInputElement>) => setDate(e.currentTarget.value)
 
     const onChangeFileHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.currentTarget.files?.length !== undefined){
@@ -101,8 +108,8 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
     }
 
     return(
-        <div className={isModalVisible ? style.modal : style.none} onClick={close}>
-            <div className={style.content} onClick={e => e.stopPropagation()}>
+        <div className={isModalVisible ? style.modal : style.none} onMouseDown={close}>
+            <div className={style.content} onMouseDown={e => e.stopPropagation()}>
                 <div className={style.header}>
                     <h3 className={style.title}>New task</h3>
                     <div className={style.crossContainer}>
@@ -120,11 +127,11 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
                             </select>
                         </div>
                         <input
-                        type="text" 
-                        value={title} 
-                        placeholder="Title" 
-                        className={`${cardStyle.name} ${style.titleInput}`} 
-                        onChange={onChangeTitleHandler}/>
+                            type="text" 
+                            value={title} 
+                            placeholder="Title" 
+                            className={`${cardStyle.name} ${style.titleInput} ${error ? style.error : ''}`} 
+                            onChange={onChangeTitleHandler}/>
                         <div className={`${style.statusContainer} ${status === 'To Do' ? cardStyle.todo : status === 'Ongoing' ? cardStyle.ongoing : cardStyle.done}`}>
                             <select value={status} className={style.status} onChange={onChangeStatusHandler}>
                                 <option value="To Do">To Do</option>
@@ -133,6 +140,7 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
                             </select>
                         </div>
                     </div>
+                    {error && <div className={style.errorMessage}>{error}</div>}
                     <textarea value={description} placeholder="Description" className={`${cardStyle.description} ${style.description}`} onChange={onChangeDescriptionHandler}/>
                     <div className={cardStyle.deadlineContainer}>
                         <img src={deadlineIcon}/>

@@ -3,7 +3,6 @@ import avatar2 from '../../res/woman.png'
 import priorityHigh from '../../icons/priorityHigh.svg'
 import priorityMid from '../../icons/priorityMid.svg'
 import priorityLow from '../../icons/priorityLow.svg'
-import statusList from '../../icons/status.svg'
 import deadlineIcon from '../../icons/deadline.svg'
 import addMember from '../../icons/addMember.svg'
 import files from '../../icons/file.svg'
@@ -22,9 +21,11 @@ type CardPropsType = {
     deadline: string
     file: number
     message: number
+    onComplete: (type: CardTypeType) => void
+    onSelect: (newStatus: CardStatusType) => void
 }
 
-export const Card: FC<CardPropsType> = ({name, description, importance, stat, deadline, file, message}) => {
+export const Card: FC<CardPropsType> = ({name, description, importance, stat, deadline, file, message, onComplete, onSelect}) => {
 
     const [status, setStatus] = useState<CardStatusType>(stat)
 
@@ -39,9 +40,11 @@ export const Card: FC<CardPropsType> = ({name, description, importance, stat, de
                 break;
             case 'Done':
                 stat = 'Done'
+                onComplete('Completed')
                 break;                
         }
         setStatus(stat)
+        onSelect(stat)
     }
 
     return(
@@ -50,16 +53,12 @@ export const Card: FC<CardPropsType> = ({name, description, importance, stat, de
                 <img src={importance === 'high' ? priorityHigh : importance === 'mid' ? priorityMid : priorityLow}/>
                 <span className={style.name}>{name}</span>
                 <div className={`${style.statusContainer} ${status === 'To Do' ? style.todo : status === 'Ongoing' ? style.ongoing : style.done}`}>
-                            <select className={style.status} onChange={onChangeStatusHandler}>
+                            <select className={style.status} onChange={onChangeStatusHandler} disabled={status === 'Done'}>
                                 <option value="To Do" selected={status === 'To Do'} className={style.option}>To Do</option>
                                 <option value="Ongoing" selected={status === 'Ongoing'} className={style.option}>Ongoing</option>
                                 <option value="Done" selected={status === 'Done'} className={style.option}>Done</option>
                             </select>
                         </div>
-                {/* <div className={`${style.status} ${status === 'To Do' ? style.todo : status === 'Ongoing' ? style.ongoing : style.done} `}>
-                    <span>{status}</span>
-                    <img src={statusList}/>
-                </div> */}
             </div>
 
             <p className={style.description}>{description}</p>
