@@ -10,7 +10,7 @@ import messages from '../../icons/message.svg'
 
 import style from "./Card.module.css"
 import { ChangeEvent, useState, FC } from "react"
-import { CardStatusType, CardType, CardTypeType, FieldType } from '../../state/state'
+import { CardImportanceType, CardStatusType, CardType, CardTypeType, FieldType } from '../../state/state'
 import { EditableSpan } from '../editableSpan/EditableSpan'
 
 type CardPropsType = {
@@ -23,6 +23,7 @@ export const Card: FC<CardPropsType> = ({cardObj, onComplete}) => {
     const {name, description, importance, status, deadline, file, message} = cardObj
 
     const [stat, setStatus] = useState<CardStatusType>(status)
+    const [priority, setPriority] = useState<CardImportanceType>(importance)
     const [card, setCard] = useState<CardType>(cardObj)
 
     const onChangeStatusHandler = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -30,17 +31,37 @@ export const Card: FC<CardPropsType> = ({cardObj, onComplete}) => {
         switch(e.currentTarget.value){
             case 'To Do':
                 status = 'To Do'
-                break;
+                break
             case 'Ongoing':
                 status = 'Ongoing'
-                break;
+                break
             case 'Done':
                 status = 'Done'
                 onComplete('Completed')
-                break;                
+                break             
         }
         setStatus(status)
         cardObj.status = status
+    }
+
+    const onChangeImportanceHandler = () => {
+        if (stat === 'Done'){
+            return
+        }
+        let importance: CardImportanceType = 'low'
+        switch(priority){
+            case 'low':
+                importance = 'mid'
+                break
+            case 'mid':
+                importance = 'high'
+                break
+            case 'high':
+                importance = 'low'
+                break
+        }
+        setPriority(importance)
+        cardObj.importance = importance
     }
 
     const onChangeHandler = (newText: string, field: FieldType) => {
@@ -58,9 +79,8 @@ export const Card: FC<CardPropsType> = ({cardObj, onComplete}) => {
     return(
         <div className={style.container}>
             <div className={style.headerContainer}>
-                <img src={importance === 'high' ? priorityHigh : importance === 'mid' ? priorityMid : priorityLow}/>
+                <img src={importance === 'high' ? priorityHigh : importance === 'mid' ? priorityMid : priorityLow} onClick={onChangeImportanceHandler}/>
                 <EditableSpan oldText={name} field='name' onChange={onChangeHandler}/>
-                {/* <span className={style.name}>{name}</span> */}
                 <div className={`${style.statusContainer} ${stat === 'To Do' ? style.todo : stat === 'Ongoing' ? style.ongoing : style.done}`}>
                             <select className={style.status} onChange={onChangeStatusHandler} disabled={stat === 'Done'}>
                                 <option value="To Do" selected={stat === 'To Do'} className={style.option}>To Do</option>
@@ -71,12 +91,10 @@ export const Card: FC<CardPropsType> = ({cardObj, onComplete}) => {
             </div>
 
             <EditableSpan oldText={description} field='description' onChange={onChangeHandler}/>
-            {/* <span className={style.description}>{description}</span> */}
 
             <div className={style.deadlineContainer}>
                 <img src={deadlineIcon}/>
-                <span className={style.deadlineText}>Deadline</span>: 
-                {deadline}
+                <span className={style.deadlineText}>Deadline</span>: {deadline}
             </div>
 
             <div className={style.footerContainer}>

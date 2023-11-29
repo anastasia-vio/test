@@ -57,7 +57,7 @@ export const App = () =>{
     let task = tasks.find(t => t.id === taskId)
     if (task) {
       task.type = newType
-    console.log(task.type)
+      task.importance = 'low'
     }
     setTasks([...tasks])
   }

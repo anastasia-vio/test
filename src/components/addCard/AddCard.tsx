@@ -155,13 +155,11 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
                         </div>
 
                         <div className={cardStyle.add}>
-                            <div className={cardStyle.addItem}>
+                            <label className={`${cardStyle.addItem} ${style.addFile}`}>
                                 <img src={files}/>
-                                <label className={style.addFile}>
-                                    <input type="file" multiple onChange={onChangeFileHandler}/>
-                                    <span>+</span>
-                                </label>
-                            </div>
+                                <input type="file" multiple onChange={onChangeFileHandler}/>
+                                <span>+</span>
+                            </label>
                         </div>
                     </div>
                 </div>
