@@ -9,42 +9,36 @@ import files from '../../icons/file.svg'
 import messages from '../../icons/message.svg'
 
 import style from "./Card.module.css"
-import {ChangeEvent, useState, FC} from "react"
-import { CardImportanceType, CardStatusType, CardTypeType } from '../../state/state'
+import { ChangeEvent, useState, FC } from "react"
+import { CardStatusType, CardType, CardTypeType } from '../../state/state'
 
 type CardPropsType = {
-    name: string
-    description: string
-    importance: CardImportanceType
-    stat: CardStatusType
-    type: CardTypeType
-    deadline: string
-    file: number
-    message: number
+    cardObj: CardType
     onComplete: (type: CardTypeType) => void
     onSelect: (newStatus: CardStatusType) => void
 }
 
-export const Card: FC<CardPropsType> = ({name, description, importance, stat, deadline, file, message, onComplete, onSelect}) => {
+export const Card: FC<CardPropsType> = ({cardObj, onComplete, onSelect}) => {
 
-    const [status, setStatus] = useState<CardStatusType>(stat)
+    const {name, description, importance, status, deadline, file, message} = cardObj
+    const [stat, setStatus] = useState<CardStatusType>(status)
 
     const onChangeStatusHandler = (e: ChangeEvent<HTMLSelectElement>) => {
-        let stat: CardStatusType = 'To Do'
+        let status: CardStatusType = 'To Do'
         switch(e.currentTarget.value){
             case 'To Do':
-                stat = 'To Do'
+                status = 'To Do'
                 break;
             case 'Ongoing':
-                stat = 'Ongoing'
+                status = 'Ongoing'
                 break;
             case 'Done':
-                stat = 'Done'
+                status = 'Done'
                 onComplete('Completed')
                 break;                
         }
-        setStatus(stat)
-        onSelect(stat)
+        setStatus(status)
+        onSelect(status)
     }
 
     return(
@@ -52,11 +46,11 @@ export const Card: FC<CardPropsType> = ({name, description, importance, stat, de
             <div className={style.headerContainer}>
                 <img src={importance === 'high' ? priorityHigh : importance === 'mid' ? priorityMid : priorityLow}/>
                 <span className={style.name}>{name}</span>
-                <div className={`${style.statusContainer} ${status === 'To Do' ? style.todo : status === 'Ongoing' ? style.ongoing : style.done}`}>
-                            <select className={style.status} onChange={onChangeStatusHandler} disabled={status === 'Done'}>
-                                <option value="To Do" selected={status === 'To Do'} className={style.option}>To Do</option>
-                                <option value="Ongoing" selected={status === 'Ongoing'} className={style.option}>Ongoing</option>
-                                <option value="Done" selected={status === 'Done'} className={style.option}>Done</option>
+                <div className={`${style.statusContainer} ${stat === 'To Do' ? style.todo : stat === 'Ongoing' ? style.ongoing : style.done}`}>
+                            <select className={style.status} onChange={onChangeStatusHandler} disabled={stat === 'Done'}>
+                                <option value="To Do" selected={stat === 'To Do'} className={style.option}>To Do</option>
+                                <option value="Ongoing" selected={stat === 'Ongoing'} className={style.option}>Ongoing</option>
+                                <option value="Done" selected={stat === 'Done'} className={style.option}>Done</option>
                             </select>
                         </div>
             </div>

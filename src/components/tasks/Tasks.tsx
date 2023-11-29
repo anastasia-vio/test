@@ -29,14 +29,7 @@ export const Tasks: FC<TasksPropsType> = ({type, checked, tasks, onOpen, onCompl
                 }
 
                 return <Card key={card.id}
-                    name={card.name} 
-                    description={card.description}
-                    importance={card.importance}
-                    stat={card.status}
-                    type={card.type}
-                    deadline={card.deadline}
-                    file={card.file}
-                    message={card.message}
+                    cardObj={card}
                     onComplete={onCompleteHandler}
                     onSelect={onChangeSelectHandler}
             />})}
