@@ -1,0 +1,18 @@
+.name{
+    min-width: 55%;
+    width: auto;
+    border: 1px solid #F2F2F2;
+    border-radius: 4px;
+    text-align: center;
+    outline: none;
+    padding-block: 0;
+    padding-inline: 0;
+}
+
+.description{
+    font-size: 16px;
+    border: 1px solid #F2F2F2;
+    border-radius: 4px;
+    outline: none;
+    resize: none;
+}

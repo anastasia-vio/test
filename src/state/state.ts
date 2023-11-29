@@ -15,6 +15,7 @@ export type FilterValuesType = "All" | "To Do" | "Ongoing" | "Done"
 export type CardImportanceType = "high" | "mid" | "low"
 export type CardStatusType = "To Do" | "Ongoing" | "Done"
 export type CardTypeType = "Today's tasks" | "Upcoming" | "Completed"
+export type FieldType = 'name' | 'description'
 export type TaskType = {
     type: CardTypeType
     checked: boolean

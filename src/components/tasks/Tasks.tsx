@@ -24,14 +24,10 @@ export const Tasks: FC<TasksPropsType> = ({type, checked, tasks, onOpen, onCompl
             <Tab type={type} num={tasks.length} checked={checked} onOpen={open}/>
             {tasks.map((card: CardType) => {
                 const onCompleteHandler = (newType: CardTypeType) => onComplete(card.id, newType)
-                const onChangeSelectHandler = (newStatus: CardStatusType) => {
-                    card.status = newStatus
-                }
 
                 return <Card key={card.id}
                     cardObj={card}
                     onComplete={onCompleteHandler}
-                    onSelect={onChangeSelectHandler}
             />})}
         </div>
     );

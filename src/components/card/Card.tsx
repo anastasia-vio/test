@@ -10,18 +10,20 @@ import messages from '../../icons/message.svg'
 
 import style from "./Card.module.css"
 import { ChangeEvent, useState, FC } from "react"
-import { CardStatusType, CardType, CardTypeType } from '../../state/state'
+import { CardStatusType, CardType, CardTypeType, FieldType } from '../../state/state'
+import { EditableSpan } from '../editableSpan/EditableSpan'
 
 type CardPropsType = {
     cardObj: CardType
     onComplete: (type: CardTypeType) => void
-    onSelect: (newStatus: CardStatusType) => void
 }
 
-export const Card: FC<CardPropsType> = ({cardObj, onComplete, onSelect}) => {
+export const Card: FC<CardPropsType> = ({cardObj, onComplete}) => {
 
     const {name, description, importance, status, deadline, file, message} = cardObj
+
     const [stat, setStatus] = useState<CardStatusType>(status)
+    const [card, setCard] = useState<CardType>(cardObj)
 
     const onChangeStatusHandler = (e: ChangeEvent<HTMLSelectElement>) => {
         let status: CardStatusType = 'To Do'
@@ -38,14 +40,27 @@ export const Card: FC<CardPropsType> = ({cardObj, onComplete, onSelect}) => {
                 break;                
         }
         setStatus(status)
-        onSelect(status)
+        cardObj.status = status
+    }
+
+    const onChangeHandler = (newText: string, field: FieldType) => {
+        switch (field) {
+            case 'name':
+                cardObj.name = newText
+                break;
+            case 'description':
+                cardObj.description = newText
+                break;
+        }
+        setCard({...cardObj})
     }
 
     return(
         <div className={style.container}>
             <div className={style.headerContainer}>
                 <img src={importance === 'high' ? priorityHigh : importance === 'mid' ? priorityMid : priorityLow}/>
-                <span className={style.name}>{name}</span>
+                <EditableSpan oldText={name} field='name' onChange={onChangeHandler}/>
+                {/* <span className={style.name}>{name}</span> */}
                 <div className={`${style.statusContainer} ${stat === 'To Do' ? style.todo : stat === 'Ongoing' ? style.ongoing : style.done}`}>
                             <select className={style.status} onChange={onChangeStatusHandler} disabled={stat === 'Done'}>
                                 <option value="To Do" selected={stat === 'To Do'} className={style.option}>To Do</option>
@@ -55,11 +70,13 @@ export const Card: FC<CardPropsType> = ({cardObj, onComplete, onSelect}) => {
                         </div>
             </div>
 
-            <p className={style.description}>{description}</p>
+            <EditableSpan oldText={description} field='description' onChange={onChangeHandler}/>
+            {/* <span className={style.description}>{description}</span> */}
 
             <div className={style.deadlineContainer}>
                 <img src={deadlineIcon}/>
-                <span className={style.deadlineText}>Deadline</span>: {deadline}
+                <span className={style.deadlineText}>Deadline</span>: 
+                {deadline}
             </div>
 
             <div className={style.footerContainer}>
