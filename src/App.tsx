@@ -1,10 +1,9 @@
 import {useState} from 'react';
-import {v1} from 'uuid'
 import style from './App.module.css';
 import { Button } from './components/button/Button'
 import { TaskCategory } from './components/taskCategory/TaskCategory'
 import { Tasks } from './components/tasks/Tasks';
-import { CardImportanceType, CardStatusType, CardType, CardTypeType, FilterValuesType, TaskType, allTasks, taskType } from './state/state';
+import { CardType, CardTypeType, FilterValuesType, TaskType, allTasks, taskType } from './state/state';
 import { AddCard } from './components/addCard/AddCard';
 
 export const App = () =>{
@@ -37,20 +36,11 @@ export const App = () =>{
     setNewCardFrom(from)
   }
 
-  function addCard(type: CardTypeType, title: string, description: string, deadline: string, status: CardStatusType, priority:CardImportanceType, fileNumber: number){
-    const newCard: CardType = {
-      id: v1(),
-      name: title,
-      description: description,
-      importance: priority,
-      status: status,
-      type: type,
-      deadline: deadline,
-      file: fileNumber,
-      message: 0
+  function addCard(card: CardType){
+    if (card.status === 'Done' && card.importance !== 'low'){
+      card.importance = 'low'
     }
-    const newTasks = [newCard, ...tasks]
-    setTasks(newTasks);
+    setTasks([card, ...tasks]);
   }
 
   function moveCompletedTasks(taskId: string, newType: CardTypeType) {

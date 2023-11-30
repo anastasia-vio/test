@@ -1,22 +1,22 @@
 import style from "./AddCard.module.css"
 import cardStyle from '../card/Card.module.css'
 import buttStyle from '../button/Button.module.css'
-import {ChangeEvent, FC} from "react"
-import {useState} from 'react';
+import {ChangeEvent, FC, useState} from "react"
+import {v1} from 'uuid'
 import priorityLow from '../../icons/priorityLow.svg'
 import priorityMid from '../../icons/priorityMid.svg'
 import priorityHigh from '../../icons/priorityHigh.svg'
 import deadlineIcon from '../../icons/deadline.svg'
 import addMember from '../../icons/addMember.svg'
 import files from '../../icons/file.svg'
-import { CardImportanceType, CardStatusType, CardTypeType } from "../../state/state";
+import { CardImportanceType, CardStatusType, CardType, CardTypeType } from "../../state/state";
 
 
 type AddCardPropsType = {
     isModalVisible: boolean
     from: CardTypeType
     onClose: (from: CardTypeType) => void
-    addCard: (type: CardTypeType, title: string, description: string, deadline: string, status: CardStatusType, priority:CardImportanceType, fileNumber: number) => void
+    addCard: (card: CardType) => void
 }
 
 export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard, from}) => {
@@ -56,7 +56,17 @@ export const AddCard: FC<AddCardPropsType> = ({isModalVisible, onClose, addCard,
             setError('Create task without title is impossible')
             return
         }
-        addCard(from, title.trim(), description.trim(), formatted, status, priority, fileNumber)
+        addCard({
+            id: v1(),
+            name: title.trim(),
+            description: description.trim(),
+            importance: priority,
+            status: status,
+            type: from,
+            deadline: formatted,
+            file: fileNumber,
+            message: 0
+        })
         close()
     }
 
